@@ -1,4 +1,4 @@
-class NumberItem{
+class NumberItem {
   int number;
   int frequency;
 

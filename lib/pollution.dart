@@ -1,4 +1,4 @@
-class Pollution{
+class Pollution {
   String place;
   int year;
   int quantity;
