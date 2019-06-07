@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:graphically_flutter_2/number.dart';
+import 'package:graphically_flutter_2/numberItem.dart';
+import './pollution.dart';
+import './task.dart';
 
 class HomePage extends StatefulWidget {
   final Widget child;
+  final List<int> entriesList;
+
   @override
-  HomePage({Key key, this.child}) : super(key: key);
+  HomePage({Key key, this.child, this.entriesList}) : super(key: key);
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   List<charts.Series<Task, String>> _seriesPieData; //Pie chart
-  List<charts.Series<Pollution, String>> _seriesBarData; //Bar graph
+  List<charts.Series<NumberItem, String>> _seriesBarData; //Bar graph
   
   _generateData(){
     //For PieChart
@@ -43,6 +49,13 @@ class _HomePageState extends State<HomePage> {
       new Pollution(1985, 'Europe', 180),
     ];
 
+    var data4 = [
+      new NumberItem(widget.entriesList[0], 3),
+      new NumberItem(widget.entriesList[1], 2),
+      new NumberItem(widget.entriesList[2], 2),
+      new NumberItem(widget.entriesList[3], 5),
+      new NumberItem(widget.entriesList[4], 1),
+    ];
 
   //Pie chart handler
     _seriesPieData.add(
@@ -60,36 +73,36 @@ class _HomePageState extends State<HomePage> {
     //Bar graph handler
     _seriesBarData.add(
       charts.Series(
-        domainFn: (Pollution data, _) => data.place, //X-Axis
-        measureFn: (Pollution data, _) => data.quantity, //Y-Axis
-        id: '2017',
-        data: data1, 
+        domainFn: (NumberItem data, _) => "${data.number}", //X-Axis
+        measureFn: (NumberItem data, _) => data.frequency, //Y-Axis
+        data: data4, 
+        id: "dummyId", //TODO
         fillPatternFn: (_, __) => charts.FillPatternType.forwardHatch, //Pattern in rectangle
-        fillColorFn: (Pollution data, _) => charts.ColorUtil.fromDartColor(Color(0xff990099))
+        fillColorFn: (_, __) => charts.ColorUtil.fromDartColor(Color(0xff990099))
         ),
     );
 
-    _seriesBarData.add(
-       charts.Series(
-        domainFn: (Pollution data, _) => data.place,
-        measureFn: (Pollution data, _) => data.quantity,
-        id: '2018',
-        data: data2,
-        fillPatternFn: (_, __) => charts.FillPatternType.solid,
-        fillColorFn: (Pollution data, _) => charts.ColorUtil.fromDartColor(Color(0xff109618))
-        ),
-    );
+    // _seriesBarData.add(
+    //    charts.Series(
+    //     domainFn: (Pollution data, _) => data.place,
+    //     measureFn: (Pollution data, _) => data.quantity,
+    //     id: '2018',
+    //     data: data2,
+    //     fillPatternFn: (_, __) => charts.FillPatternType.solid,
+    //     fillColorFn: (Pollution data, _) => charts.ColorUtil.fromDartColor(Color(0xff109618))
+    //     ),
+    // );
 
-    _seriesBarData.add(
-        charts.Series(
-        domainFn: (Pollution data, _) => data.place,
-        measureFn: (Pollution data, _) => data.quantity,
-        id: '2019',
-        data: data3,
-        fillPatternFn: (_, __) => charts.FillPatternType.solid,
-        fillColorFn: (Pollution data, _) => charts.ColorUtil.fromDartColor(Color(0xffff9900))
-        )
-    );
+    // _seriesBarData.add(
+    //     charts.Series(
+    //     domainFn: (Pollution data, _) => data.place,
+    //     measureFn: (Pollution data, _) => data.quantity,
+    //     id: '2019',
+    //     data: data3,
+    //     fillPatternFn: (_, __) => charts.FillPatternType.solid,
+    //     fillColorFn: (Pollution data, _) => charts.ColorUtil.fromDartColor(Color(0xffff9900))
+    //     )
+    // );
   }
   void initState(){
     super.initState();
@@ -107,25 +120,24 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xff1976d2),
-            bottom: TabBar(
-              indicatorColor: Color(0xff9962D0),
-              tabs: <Widget>[
-                Tab(icon: Icon(FontAwesomeIcons.solidChartBar),),
-                Tab(icon: Icon(FontAwesomeIcons.chartPie)),
-                Tab(icon: Icon(FontAwesomeIcons.chartLine),)
-              ],
-            ),
             title: Text('Flutter charts'),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(FontAwesomeIcons.forward),
+                onPressed: (){
+                  Navigator.push(
+                    context, 
+                    new MaterialPageRoute(builder: (context) => EnterNumber()));
+                },)
+            ],
           ),
-          body: TabBarView(
-            children: <Widget>[
-              Padding(
+          body: Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Container(
                   child: Center(
                     child: Column(children: <Widget>[
                       Text(
-                        'SO2 emissions, by world region (in Million tonnes)',
+                        'Click Frequency',
                         style: TextStyle(
                           fontSize: 24.0,
                           fontWeight: FontWeight.bold
@@ -144,71 +156,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Container(
-                  child: Center(
-                    child: Column(children: <Widget>[
-                      Text(
-                        'Time spent on daily tasks',
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      SizedBox(height: 10.0,),
-                      Expanded(
-                        child: charts.PieChart(
-                          _seriesPieData,
-                          animate: true,
-                          animationDuration: Duration(seconds: 5),
-                          behaviors: [
-                            new charts.DatumLegend(
-                              outsideJustification: charts.OutsideJustification.endDrawArea,
-                              horizontalFirst: false,
-                              desiredMaxRows: 2,
-                              cellPadding: EdgeInsets.only(right: 4.0, bottom: 4.0),
-                              entryTextStyle: charts.TextStyleSpec(
-                                color: charts.MaterialPalette.purple.shadeDefault,
-                                fontFamily: 'Georgia',
-                                fontSize: 11),
-                            )
-                          ],
-                          defaultRenderer: new charts.ArcRendererConfig(
-                            arcWidth: 100,
-                            arcRendererDecorators: [
-                              new charts.ArcLabelDecorator(
-                                labelPosition: charts.ArcLabelPosition.inside
-                              )
-                            ]
-                          ),
-                        ),
-                      )
-                    ],),
-                  ),
-                ),
-              ),
-              Container()
-            ],
-          ),
         )
       ),
     );
   }
 }
 
-class Task{
-  String task;
-  double taskValue;
-  Color colorVal;
 
-  Task(this.task, this.taskValue, this.colorVal);
-}
 
-class Pollution{
-  String place;
-  int year;
-  int quantity;
-
-  Pollution(this.year, this.place, this.quantity);
-}

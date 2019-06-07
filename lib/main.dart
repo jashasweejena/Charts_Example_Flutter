@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'homepage.dart';
-
+import 'package:graphically_flutter_2/number.dart';
+import './homepage.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -13,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xffff6101)
       ),
-      home: HomePage(),
+      home: EnterNumber()
     );
   }
 }
