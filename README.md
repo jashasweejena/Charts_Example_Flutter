@@ -1,16 +1,56 @@
-# graphically_flutter_2
+# Graphically
 
-A new Flutter project.
+First of all, a few screenshots:
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+Bar Graph             |  NumberPicker
+:-------------------------:|:-------------------------:
+![](https://github.com/jashasweejena/Graphically-Yours/raw/master/screenshots/flutter_01.png)  |  ![](https://github.com/jashasweejena/Graphically-Yours/raw/master/screenshots/flutter_02.png)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## What is this?
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+This is a simple App which uses the charts_flutter library to draw Bar graphs on the frequency of the numbers from 5 user inputs.
+
+
+## Dependencies
+
+The focus of this project lies on taking user data and drawing a bar graph based on it.
+
+- charts_flutter Library
+- font_awesome_flutter Library
+- numberpicker Library
+
+## Supported devices
+
+The App supports every device with a Android Jelly Bean, v16, 4.1.x or newer, and iOS 8 or newer.
+
+
+## Quick walkthrough
+
+### pubspec.yaml
+
+This file helps us define the libraries used in our app
+
+```xml
+    dependencies:
+      charts_flutter: ^0.6.0
+      font_awesome_flutter: ^8.4.0
+      numberpicker: ^1.0.0
+```
+
+### Base classes
+
+*HomePage* shows the Bar graph after receiving data from the EnterNumber class
+
+*EnterNumber* is the class which launches when the app begins. The user uses a NumberPicker to enter his 5 choices and pressses the FAB to Navigate back to Homepage
+
+*NumberItem* is the class which is a model class for the Bar graph
+
+
+
+
+
+
+ 
+
