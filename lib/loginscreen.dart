@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'number.dart';
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -44,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(
                             fontSize: 80.0,
                             fontWeight: FontWeight.bold,
-                            color: Colors.green,
+                            color: Color(0xffff6101),
                           )),
                     )
                   ],
@@ -63,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.grey,
                           ),
                           focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.green))),
+                              borderSide: BorderSide(color: Color(0xffff6101)))),
                     ),
                     SizedBox(
                       height: 20.0,
@@ -77,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.grey,
                         ),
                         focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.green)),
+                            borderSide: BorderSide(color: Color(0xffff6101))),
                       ),
                       obscureText: true,
                     ),
@@ -88,11 +90,16 @@ class _LoginPageState extends State<LoginPage> {
                       height: 60.0,
                       child: Material(
                         borderRadius: BorderRadius.circular(30.0),
-                        shadowColor: Colors.greenAccent,
-                        color: Colors.green,
+                        shadowColor: Colors.blueAccent,
+                        color: Color(0xffff6101),
                         elevation: 7.0,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => EnterNumber()));
+                          },
                           child: Center(
                             child: Text(
                               'LOGIN',
